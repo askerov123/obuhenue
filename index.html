@@ -1,1 +1,548 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blender & HTML - Обучающая платформа</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            background-color: var(--secondary-color);
+            padding: 1rem 0;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin: 0 1rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .hero h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .courses {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .course-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .course-card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .course-card-body {
+            padding: 1.5rem;
+        }
+        
+        .course-card-footer {
+            padding: 1rem;
+            text-align: center;
+            background-color: #f8f9fa;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .lesson-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .lesson-title {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .code-example {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .blender-tip {
+            background-color: #e8f4fd;
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .tab-container {
+            margin: 2rem 0;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background-color: white;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 2rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .resources {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .resource-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .resource-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            
+            .courses {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Обучающая платформа: Blender и HTML</h1>
+        <p>Изучайте 3D-моделирование и веб-разработку с нуля</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#" onclick="showSection('home')">Главная</a></li>
+            <li><a href="#" onclick="showSection('blender')">Blender</a></li>
+            <li><a href="#" onclick="showSection('html')">HTML</a></li>
+            <li><a href="#" onclick="showSection('resources')">Ресурсы</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <!-- Главная страница -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h2>Добро пожаловать на обучающую платформу!</h2>
+                <p>Здесь вы найдете уроки по Blender для создания 3D-графики и по HTML для разработки веб-сайтов.</p>
+                <p>Выберите интересующий вас курс и начните обучение!</p>
+            </div>
+            
+            <div class="courses">
+                <div class="course-card">
+                    <div class="course-card-header">
+                        <h3>Blender для начинающих</h3>
+                    </div>
+                    <div class="course-card-body">
+                        <p>Изучите основы 3D-моделирования, текстурирования и анимации в бесплатном программном обеспечении Blender.</p>
+                        <ul>
+                            <li>Интерфейс и навигация</li>
+                            <li>Моделирование объектов</li>
+                            <li>Материалы и текстуры</li>
+                            <li>Освещение и рендеринг</li>
+                        </ul>
+                    </div>
+                    <div class="course-card-footer">
+                        <a href="#" class="btn" onclick="showSection('blender')">Начать изучение</a>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-card-header">
+                        <h3>HTML с нуля</h3>
+                    </div>
+                    <div class="course-card-body">
+                        <p>Освойте основы HTML для создания веб-страниц и понимания структуры веб-сайтов.</p>
+                        <ul>
+                            <li>Структура HTML-документа</li>
+                            <li>Теги и атрибуты</li>
+                            <li>Формы и таблицы</li>
+                            <li>Семантическая верстка</li>
+                        </ul>
+                    </div>
+                    <div class="course-card-footer">
+                        <a href="#" class="btn" onclick="showSection('html')">Начать изучение</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Раздел Blender -->
+        <section id="blender" class="section">
+            <h2 class="lesson-title">Курс по Blender</h2>
+            
+            <div class="tab-container">
+                <div class="tabs">
+                    <div class="tab active" onclick="openTab('blender', 'blender-basics')">Основы</div>
+                    <div class="tab" onclick="openTab('blender', 'blender-modeling')">Моделирование</div>
+                    <div class="tab" onclick="openTab('blender', 'blender-materials')">Материалы</div>
+                </div>
+                
+                <div id="blender-basics" class="tab-content active">
+                    <h3>Интерфейс Blender</h3>
+                    <p>Blender имеет мощный, но интуитивно понятный интерфейс. Основные элементы:</p>
+                    <ul>
+                        <li><strong>3D Viewport</strong> - основная рабочая область для создания и редактирования объектов</li>
+                        <li><strong>Outliner</strong> - показывает иерархию всех объектов в сцене</li>
+                        <li><strong>Properties</strong> - панель для настройки объектов, материалов, освещения и рендеринга</li>
+                        <li><strong>Timeline</strong> - для работы с анимацией</li>
+                    </ul>
+                    
+                    <div class="blender-tip">
+                        <p><strong>Совет:</strong> Используйте цифровые клавиши 1, 3 и 7 для быстрого переключения между видами (спереди, сбоку, сверху).</p>
+                    </div>
+                </div>
+                
+                <div id="blender-modeling" class="tab-content">
+                    <h3>Основы моделирования</h3>
+                    <p>В Blender есть несколько методов моделирования:</p>
+                    <ul>
+                        <li><strong>Полигональное моделирование</strong> - работа с вершинами, ребрами и гранями</li>
+                        <li><strong>Скульптинг</strong> - создание органических форм как в цифровой глине</li>
+                        <li><strong>Модификаторы</strong> - неразрушающие операции для сложных преобразований</li>
+                    </ul>
+                    
+                    <div class="blender-tip">
+                        <p><strong>Совет:</strong> Используйте модификатор Subdivision Surface для сглаживания моделей без увеличения полигонов вручную.</p>
+                    </div>
+                </div>
+                
+                <div id="blender-materials" class="tab-content">
+                    <h3>Материалы и текстуры</h3>
+                    <p>Blender использует систему материалов на основе узлов (Node-based):</p>
+                    <ul>
+                        <li><strong>Principled BSDF</strong> - универсальный шейдер для большинства материалов</li>
+                        <li><strong>Image Texture</strong> - для применения растровых изображений</li>
+                        <li><strong>Bump/Normal Map</strong> - для создания иллюзии рельефа</li>
+                    </ul>
+                    
+                    <div class="blender-tip">
+                        <p><strong>Совет:</strong> Для реалистичных материалов используйте PBR (Physically Based Rendering) текстуры с картами альбедо, нормалей, шероховатости и металличности.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Раздел HTML -->
+        <section id="html" class="section">
+            <h2 class="lesson-title">Курс по HTML</h2>
+            
+            <div class="tab-container">
+                <div class="tabs">
+                    <div class="tab active" onclick="openTab('html', 'html-basics')">Основы HTML</div>
+                    <div class="tab" onclick="openTab('html', 'html-structure')">Структура</div>
+                    <div class="tab" onclick="openTab('html', 'html-forms')">Формы</div>
+                </div>
+                
+                <div id="html-basics" class="tab-content active">
+                    <h3>Что такое HTML?</h3>
+                    <p>HTML (HyperText Markup Language) - это язык разметки для создания веб-страниц.</p>
+                    
+                    <p>Основные понятия:</p>
+                    <ul>
+                        <li><strong>Теги</strong> - элементы, которые определяют структуру содержимого</li>
+                        <li><strong>Атрибуты</strong> - дополнительные свойства тегов</li>
+                        <li><strong>Элементы</strong> - открывающий тег, содержимое и закрывающий тег</li>
+                    </ul>
+                    
+                    <h4>Пример простого HTML-документа:</h4>
+                    <div class="code-example">
+                        &lt;!DOCTYPE html&gt;<br>
+                        &lt;html&gt;<br>
+                        &lt;head&gt;<br>
+                        &nbsp;&nbsp;&lt;title&gt;Моя первая страница&lt;/title&gt;<br>
+                        &lt;/head&gt;<br>
+                        &lt;body&gt;<br>
+                        &nbsp;&nbsp;&lt;h1&gt;Привет, мир!&lt;/h1&gt;<br>
+                        &nbsp;&nbsp;&lt;p&gt;Это моя первая веб-страница.&lt;/p&gt;<br>
+                        &lt;/body&gt;<br>
+                        &lt;/html&gt;
+                    </div>
+                </div>
+                
+                <div id="html-structure" class="tab-content">
+                    <h3>Структура HTML-документа</h3>
+                    <p>Правильная структура важна для семантики и доступности:</p>
+                    
+                    <div class="code-example">
+                        &lt;!DOCTYPE html&gt;<br>
+                        &lt;html lang="ru"&gt;<br>
+                        &lt;head&gt;<br>
+                        &nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+                        &nbsp;&nbsp;&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;<br>
+                        &nbsp;&nbsp;&lt;title&gt;Заголовок страницы&lt;/title&gt;<br>
+                        &lt;/head&gt;<br>
+                        &lt;body&gt;<br>
+                        &nbsp;&nbsp;&lt;header&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;nav&gt;Навигация&lt;/nav&gt;<br>
+                        &nbsp;&nbsp;&lt;/header&gt;<br>
+                        &nbsp;&nbsp;&lt;main&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;article&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Заголовок статьи&lt;/h1&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Содержимое статьи...&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/article&gt;<br>
+                        &nbsp;&nbsp;&lt;/main&gt;<br>
+                        &nbsp;&nbsp;&lt;footer&gt;Нижняя часть страницы&lt;/footer&gt;<br>
+                        &lt;/body&gt;<br>
+                        &lt;/html&gt;
+                    </div>
+                    
+                    <p>Семантические теги помогают поисковым системам и программам чтения с экрана понимать структуру вашего контента.</p>
+                </div>
+                
+                <div id="html-forms" class="tab-content">
+                    <h3>HTML-формы</h3>
+                    <p>Формы позволяют пользователям вводить данные:</p>
+                    
+                    <div class="code-example">
+                        &lt;form action="/submit" method="post"&gt;<br>
+                        &nbsp;&nbsp;&lt;label for="name"&gt;Имя:&lt;/label&gt;<br>
+                        &nbsp;&nbsp;&lt;input type="text" id="name" name="name" required&gt;<br>
+                        &nbsp;&nbsp;&lt;br&gt;<br>
+                        &nbsp;&nbsp;&lt;label for="email"&gt;Email:&lt;/label&gt;<br>
+                        &nbsp;&nbsp;&lt;input type="email" id="email" name="email" required&gt;<br>
+                        &nbsp;&nbsp;&lt;br&gt;<br>
+                        &nbsp;&nbsp;&lt;label for="message"&gt;Сообщение:&lt;/label&gt;<br>
+                        &nbsp;&nbsp;&lt;textarea id="message" name="message" rows="4"&gt;&lt;/textarea&gt;<br>
+                        &nbsp;&nbsp;&lt;br&gt;<br>
+                        &nbsp;&nbsp;&lt;button type="submit"&gt;Отправить&lt;/button&gt;<br>
+                        &lt;/form&gt;
+                    </div>
+                    
+                    <p>Атрибут <code>required</code> делает поле обязательным для заполнения перед отправкой формы.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Раздел ресурсов -->
+        <section id="resources" class="section">
+            <h2 class="lesson-title">Полезные ресурсы</h2>
+            
+            <div class="resources">
+                <div class="resource-card">
+                    <h3>Официальная документация Blender</h3>
+                    <p>Полное руководство по всем функциям Blender</p>
+                    <a href="https://docs.blender.org" class="btn" target="_blank">Перейти</a>
+                </div>
+                
+                <div class="resource-card">
+                    <h3>MDN Web Docs</h3>
+                    <p>Исчерпывающая документация по HTML и веб-технологиям</p>
+                    <a href="https://developer.mozilla.org/ru/docs/Web/HTML" class="btn" target="_blank">Перейти</a>
+                </div>
+                
+                <div class="resource-card">
+                    <h3>Blender Guru</h3>
+                    <p>Обучающие материалы и уроки по Blender</p>
+                    <a href="https://www.blenderguru.com" class="btn" target="_blank">Перейти</a>
+                </div>
+                
+                <div class="resource-card">
+                    <h3>FreeCodeCamp</h3>
+                    <p>Бесплатные курсы по веб-разработке</p>
+                    <a href="https://www.freecodecamp.org" class="btn" target="_blank">Перейти</a>
+                </div>
+            </div>
+            
+            <div class="lesson-container">
+                <h3>Следующие шаги в обучении</h3>
+                <p>После освоения основ HTML и Blender, рекомендуем изучить:</p>
+                <ul>
+                    <li><strong>CSS</strong> - для стилизации веб-страниц</li>
+                    <li><strong>JavaScript</strong> - для добавления интерактивности</li>
+                    <li><strong>Blender: Анимация</strong> - для создания движущихся 3D-сцен</li>
+                    <li><strong>Blender: Композитинг</strong> - для постобработки рендеров</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p>Обучающая платформа по Blender и HTML &copy; 2023</p>
+        <p>Все материалы предоставлены в образовательных целях</p>
+    </footer>
 
+    <script>
+        // Функция для переключения между разделами
+        function showSection(sectionId) {
+            // Скрыть все разделы
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Показать выбранный раздел
+            document.getElementById(sectionId).classList.add('active');
+        }
+        
+        // Функция для переключения вкладок внутри разделов
+        function openTab(section, tabName) {
+            // Скрыть все вкладки в текущем разделе
+            const tabContents = document.querySelectorAll(`#${section} .tab-content`);
+            tabContents.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Убрать активный класс со всех вкладок в текущем разделе
+            const tabs = document.querySelectorAll(`#${section} .tab`);
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Показать выбранную вкладку
+            document.getElementById(tabName).classList.add('active');
+            
+            // Добавить активный класс к выбранной вкладке
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Инициализация - показать главную страницу при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('home');
+        });
+    </script>
+</body>
+</html>
